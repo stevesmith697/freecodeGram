@@ -10,17 +10,19 @@ class ProfilesController extends Controller
 {
     //
     public function index(User $user)
-    {       
-        return view('profiles.index', compact('user'));
+    {
+        $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
+
+        return view('profiles.index', compact('user', 'follows'));
     }
     public function edit(User $user)
-    {       
-        $this->authorize('update',$user->profile);
+    {
+        $this->authorize('update', $user->profile);
         return view('profiles.edit', compact('user'));
     }
     public function update(User $user)
-    {       
-        $this->authorize('update',$user->profile);
+    {
+        $this->authorize('update', $user->profile);
 
         $data = request()->validate([
             'title' => 'required',
@@ -29,8 +31,8 @@ class ProfilesController extends Controller
             'image' => ''
         ]);
 
-        if(request('image')){
-            $imagePath = request('image')->store('profile','public');
+        if (request('image')) {
+            $imagePath = request('image')->store('profile', 'public');
             $imageArray = ['image' => $imagePath];
         }
 
@@ -41,4 +43,4 @@ class ProfilesController extends Controller
 
         return redirect("/profile/{$user->id}");
     }
-} 
+}

@@ -4,37 +4,39 @@
 <div class="container">
     <div class="row">
         <figure class="col-3 p-3">
-         <img src="{{ $user->profile->profileImage() }}" alt="profile-image" class="rounded-circle profile-img">
-</figure>
+            <img src="{{ $user->profile->profileImage() }}" alt="profile-image" class="rounded-circle profile-img">
+        </figure>
         <div class="col-9 profile-info">
-         <div class="d-flex justify-content-between align-items-baseline pb-3">
-            <div class="profile-title d-flex align-items-center">
-                {{ $user->username }}
-               <button type="button" class="btn btn-primary">Follow</button>
+            <div class="d-flex justify-content-between align-items-baseline pb-3">
+                <div class="profile-title d-flex align-items-center">
+                    <h4 class="font-semibold">
+                        {{ $user->username }}
+                    </h4>
+                    <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
+                </div>
+                @can('update',$user->profile)
+                <a href="/p/create">Add New Post</a>
+                @endcan
             </div>
             @can('update',$user->profile)
-            <a href="/p/create">Add New Post</a>
+            <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
             @endcan
-        </div>
-        @can('update',$user->profile)
-        <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
-        @endcan
-         <div class="profile-stats">
-             <div><strong>{{ $user->posts()->count() }}</strong> posts</div>
-             <div><strong>23k</strong> followers</div>
-             <div><strong>212</strong> following</div>
-         </div>
-         @if(!empty($user->profile->title))
-         <h5 class="pt-3">{{ $user->profile->title }}</h5>
-     @endif
-     
-     @if(!empty($user->profile->description))
-         <p>{{ $user->profile->description }}</p>
-     @endif
-     
-     @if(!empty($user->profile->url))
-         <a href="{{ $user->profile->url }}">{{ $user->profile->url }}</a>
-     @endif
+            <div class="profile-stats">
+                <div><strong>{{ $user->posts()->count() }}</strong> posts</div>
+                <div><strong>{{ $user->profile->followers->count() }}</strong> followers</div>
+                <div><strong>{{ $user->following->count() }}</strong> following</div>
+            </div>
+            @if(!empty($user->profile->title))
+            <h5 class="pt-3">{{ $user->profile->title }}</h5>
+            @endif
+
+            @if(!empty($user->profile->description))
+            <p>{{ $user->profile->description }}</p>
+            @endif
+
+            @if(!empty($user->profile->url))
+            <a href="{{ $user->profile->url }}">{{ $user->profile->url }}</a>
+            @endif
         </div>
     </div>
     <div class="row pt-5">
@@ -45,7 +47,7 @@
                     <img src="/storage/{{ $post->image}}" alt="post-img" class="w-100">
                 </a>
             </div>
-            @endforeach           
+            @endforeach
         </div>
     </div>
 </div>

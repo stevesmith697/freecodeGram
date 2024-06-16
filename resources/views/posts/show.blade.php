@@ -8,7 +8,7 @@
                 <img src="/storage/{{ $post->image }}" alt="post-img">
             </div>
             <div class="col-5">
-                <figure><img class="profile-img" src="/storage/{{ $post->user->profile->image }}" alt="profile-img"></figure>
+                <figure><img class="profile-img" src="{{ $post->user->profile->profileImage() }}" alt="profile-img"></figure>
                 <h2>{{ $post->caption }}</h2>
             </div>
         </div>
