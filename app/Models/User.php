@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\NewUsersWelcomeMail;
 use \App\Models\Profile;
 use \App\Models\Post;
 
@@ -9,6 +10,8 @@ use \App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -57,6 +60,14 @@ class User extends Authenticatable
             $user->profile()->create([
                 'title' => $user->username
             ]);
+
+            // Send a welcome email
+            try {
+                Mail::to($user->email)->send(new NewUsersWelcomeMail());
+            } catch (\Exception $e) {
+                // Log the exception or handle the error
+                Log::error('Error sending welcome email: ' . $e->getMessage());
+            }
         });
     }
 

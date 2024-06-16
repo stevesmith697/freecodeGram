@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\NewUsersWelcomeMail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -7,6 +8,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('/email', function () {
+    return new NewUsersWelcomeMail();
+});
 
 Route::get('/', [App\Http\Controllers\PostsController::class, 'index']);
 Route::post('/follow/{user}', [App\Http\Controllers\FollowsController::class, 'store']);

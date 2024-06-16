@@ -22,9 +22,9 @@
             <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
             @endcan
             <div class="profile-stats">
-                <div><strong>{{ $user->posts()->count() }}</strong> posts</div>
-                <div><strong>{{ $user->profile->followers->count() }}</strong> followers</div>
-                <div><strong>{{ $user->following->count() }}</strong> following</div>
+                <div><strong>{{ $postCount }}</strong> posts</div>
+                <div><strong>{{ $followersCount }}</strong> followers</div>
+                <div><strong>{{ $followingCount }}</strong> following</div>
             </div>
             @if(!empty($user->profile->title))
             <h5 class="pt-3">{{ $user->profile->title }}</h5>
